@@ -2,7 +2,7 @@
 Raspberry Pi Smart Dash Camera System
 
 Colaborators:
-Michael Shiozaki
+Michael Shiozaki \n
 Brandon Fong
 Sean Lee
 
