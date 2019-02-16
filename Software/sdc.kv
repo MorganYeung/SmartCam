@@ -1,0 +1,267 @@
+# SDC GUI v1
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+#: import ListItemButton kivy.uix.listview.ListItemButton
+#: import ChekcBox kivy.uix.checkbox
+#: import hex kivy.utils.get_color_from_hex
+#: import F kivy.factory.Factory
+
+<PassPop>:
+    size_hint: .5, .5
+    auto_dismiss: False
+    title: "You good fam"
+    #font_name: 'SourceSansPro-Regular.otf'
+    BoxLayout:
+        orientation: 'vertical'
+        padding:20,0,0,0
+        Image:
+            source: "check.png"
+        Button:
+            center_y: 50
+            size_hint: 1, 0.25
+            padding: 50, 50
+            text: "OK"
+            on_press: root.dismiss()
+
+<FailPop>:
+    size_hint: .5, .5
+    auto_dismiss: False
+    title: "Red Light Ran"
+    #font_name: 'SourceSansPro-Regular.otf'
+    BoxLayout:
+        orientation: 'vertical'
+        padding:20,0,0,0
+        Image:
+            source: "x.png"
+        Button:
+            center_y: 50
+            size_hint: 1, 0.25
+            padding: 50, 50
+            text: "OK"
+            on_press: root.dismiss()
+
+<WarningPop>:
+    size_hint: .5, .5
+    auto_dismiss: False
+    title: "Warning!"
+    #font_name: 'SourceSansPro-Regular.otf'
+    BoxLayout:
+        orientation: 'vertical'
+        padding:0,0,0,0
+        Label:
+            text:"Some Warning Message"
+            font_size: 30
+        Button:
+            center_y: 50
+            size_hint: 1, .25
+            text: "OK"
+            on_press: root.dismiss()
+
+<Manager>:
+    id: screenmanager
+
+    StartScreen:
+        id: start_screen
+        name: 'screen0'
+        manager: screenmanager
+
+    MainScreen:
+        id: main_screen
+        name: 'screen1'
+        manager: screenmanager
+
+    DataScreen:
+        id: data_screen
+        name: 'screen2'
+        manager: screenmanager
+
+<StartScreen>:
+    id: ss
+
+    login_button: login_button
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:                                                      #top bar
+            size_hint_y: None
+            height: 40
+            Label:
+                size_hint_x: .9
+
+            Button:
+                size_hint_x: None
+                text: "Close"
+                font_size: 30
+                on_press:
+                    root.exit()
+        Label:
+            text: 'Smart Dash Cam'
+            font_size: 60
+            color: 1,1,1,1
+
+        Label:
+            multiline: False
+            text:'Built by: Morgan,'
+            font_size: 50
+            padding_x: 240,0
+
+        BoxLayout:
+            Label:
+                size_hint_x: .25
+            Button:
+                id: login_button
+                size_hint: 0.5,1
+                center_x: 100
+                text: 'Start'
+                disabled: False
+                font_size: 60
+                background_normal: ''
+                background_color: [0,0.6,0.16,1]
+                on_press:
+                    root.manager.transition.direction = "left"
+                    root.manager.current = 'screen1'
+            Label:
+                size_hint_x: .25
+
+<MainScreen>:
+
+    id: ms
+    BoxLayout:
+        orientation: "vertical"
+
+        Label:
+            height: 20
+            size_hint_y: None
+            text: 'Testing the camera'
+
+        KivyCamera:
+            id: qrcam
+
+        BoxLayout:
+            orientation: "horizontal"
+            height: 20
+            size_hint_y: None
+
+            Button:
+                id: butt_start
+                size_hint: 0.5,1
+                text: "start"
+                on_press: root.dostart()
+
+            Button:
+                id: butt_exit
+                text: "quit"
+                size_hint: 0.5,1
+                on_press: root.doexit()
+
+
+<DataScreen>:
+    BoxLayout:                                                             #main
+        orientation: 'vertical'
+        canvas:
+            Color:
+                rgba: 0,0,0,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+        BoxLayout:                                                      #top bar
+            size_hint_y: None
+            orientation: 'horizontal'
+            height: 40
+
+            Button:
+                size_hint_x: None
+                text: "Back"
+                font_size: 30
+                on_press:
+                    root.manager.transition.direction = "right"
+                    root.manager.current = "screen1"
+
+            Label:
+                size_hint_x: .8
+
+            Button:
+                size_hint_x: None
+                text: "Close"
+                font_size: 30
+                on_press:
+                    root.exit()
+
+        BoxLayout:                                                          #Bottom Bar
+            size_hint_y: None
+            orientation: 'vertical'
+            BoxLayout:
+                height: 60
+
+                Button:
+                    id: attenuation_button
+                    size_hint_x: 0.35
+                    text: 'Analyze Results'
+                    font_size: 24
+                    on_press: root.change_text()
+                    on_release: root.attenuation_test()
+                    background_color: 0,1,0,1
+
+        GridLayout:
+            cols: 5
+            Button:
+                disabled: True
+                size_hint: 0.3,1
+                padding_x: 500
+                text: " "
+                font_size: 24
+            Button:
+                disabled: True
+                size_hint: 0.3,1
+                padding_x: 500
+                text: "Metric 1"
+                font_size: 24
+            Button:
+                disabled: True
+                size_hint: 0.3,1
+                padding_x: 500
+                text: "Metric 2"
+                font_size: 24
+            Button:
+                disabled: True
+                size_hint: 0.3,1
+                padding_x: 500
+                text: "Metric 3"
+                font_size: 24
+            Button:
+                disabled: True
+                size_hint: 0.3,1
+                padding_x: 500
+                text: "Metric 4"
+                font_size: 24
+
+
+            Label:
+                size_hint: 0.3,1
+                padding_x: 500
+                text: "Score"
+                font_size: 24
+            Label:
+                id: metric1
+                size_hint: 0.3,1
+                padding_x: 500
+                text: "n/a"
+                font_size: 24
+            Label:
+                id: metric2
+                size_hint: 0.3,1
+                padding_x: 500
+                text: "n/a"
+                font_size: 24
+            Label:
+                id: metric3
+                size_hint: 0.3,1
+                padding_x: 500
+                text: "n/a"
+                font_size: 24
+            Label:
+                id: metric4
+                size_hint: 0.3,1
+                padding_x: 500
+                text: "0"
+                font_size: 24
